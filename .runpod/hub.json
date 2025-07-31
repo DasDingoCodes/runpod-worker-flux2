@@ -1,5 +1,5 @@
 {
-  "title": "Stable Diffusion XL",
+  "title": "SDXL (Stable Diffusion XL)",
   "description": "Generate images with Stable Diffusion XL.",
   "type": "serverless",
   "category": "image",
