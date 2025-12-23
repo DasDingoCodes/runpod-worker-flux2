@@ -15,7 +15,7 @@ def fetch_transformer():
             subfolder="transformer",
             torch_dtype=torch.bfloat16,
             device_map="cpu",
-            local_files_only=True,
+            local_files_only=False,
         )
         except OSError as err:
             if attempt < max_retries - 1:
@@ -38,7 +38,7 @@ def fetch_text_encoder():
             dtype=torch.bfloat16,
             device_map="cpu",
             load_in_4bit=True,
-            local_files_only=True,
+            local_files_only=False,
         )
         except OSError as err:
             if attempt < max_retries - 1:
@@ -60,7 +60,7 @@ def fetch_pipe(transformer, text_encoder):
             transformer=transformer,
             text_encoder=text_encoder,
             torch_dtype=torch.bfloat16,
-            local_files_only=True,
+            local_files_only=False,
         )
         except OSError as err:
             if attempt < max_retries - 1:
