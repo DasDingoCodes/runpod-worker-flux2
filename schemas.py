@@ -1,67 +1,40 @@
 INPUT_SCHEMA = {
-    'prompt': {
-        'type': str,
-        'required': False,
+    "prompt": {
+        "type": str,
+        "required": False,
     },
-    'negative_prompt': {
-        'type': str,
-        'required': False,
-        'default': None
+    "image_inputs": {
+        "type": list,
+        "required": True,
     },
-    'height': {
-        'type': int,
-        'required': False,
-        'default': 1024
+    "height": {
+        "type": int,
+        "required": False,
+        "default": 1080,
     },
-    'width': {
-        'type': int,
-        'required': False,
-        'default': 1024
+    "width": {
+        "type": int,
+        "required": False,
+        "default": 1920,
     },
-    'seed': {
-        'type': int,
-        'required': False,
-        'default': None
+    "num_inference_steps": {
+        "type": int,
+        "required": False,
+        "default": 28,
     },
-    'scheduler': {
-        'type': str,
-        'required': False,
-        'default': 'DDIM'
+    "guidance_scale": {
+        "type": float,
+        "required": False,
+        "default": 2.5,
     },
-    'num_inference_steps': {
-        'type': int,
-        'required': False,
-        'default': 25
+    "num_images": {
+        "type": int,
+        "required": False,
+        "default": 1,
     },
-    'refiner_inference_steps': {
-        'type': int,
-        'required': False,
-        'default': 50
-    },
-    'guidance_scale': {
-        'type': float,
-        'required': False,
-        'default': 7.5
-    },
-    'strength': {
-        'type': float,
-        'required': False,
-        'default': 0.3
-    },
-    'image_url': {
-        'type': str,
-        'required': False,
-        'default': None
-    },
-    'num_images': {
-        'type': int,
-        'required': False,
-        'default': 1,
-        'constraints': lambda img_count: 3 > img_count > 0
-    },
-    'high_noise_frac': {
-        'type': float,
-        'required': False,
-        'default': None
+    "seed": {
+        "type": int,
+        "required": False,
+        "default": None,
     },
 }
