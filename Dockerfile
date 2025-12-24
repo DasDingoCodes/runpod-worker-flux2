@@ -34,8 +34,9 @@ RUN uv pip install -r /requirements.txt
 # copy files
 COPY download_weights.py schemas.py handler.py test_input.json /
 
-# download the weights from hugging face
-RUN python /download_weights.py
+# do not download the weights from hugging face 
+# because we want to use the cached model
+# RUN python /download_weights.py
 
 # run the handler
 CMD python -u /handler.py

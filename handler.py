@@ -18,6 +18,33 @@ from schemas import INPUT_SCHEMA
 
 torch.cuda.empty_cache()
 
+REPO_ID = "diffusers/FLUX.2-dev-bnb-4bit"
+CACHE_DIR = "/runpod-volume/huggingface-cache/hub"
+
+def find_model_path(model_name) -> str:
+    """
+    Find the path to a cached model.
+    
+    Args:
+        model_name: The model name from Hugging Face
+        (e.g., 'Qwen/Qwen2.5-0.5B-Instruct')
+    
+    Returns:
+        The full path to the cached model, or None if not found
+    """
+    # Convert model name format: "Org/Model" -> "models--Org--Model"
+    cache_name = model_name.replace("/", "--")
+    snapshots_dir = os.path.join(CACHE_DIR, f"models--{cache_name}", "snapshots")
+    
+    # Check if the model exists in cache
+    if os.path.exists(snapshots_dir):
+        snapshots = os.listdir(snapshots_dir)
+        if snapshots:
+            # Return the path to the first (usually only) snapshot
+            return os.path.join(snapshots_dir, snapshots[0])
+    
+    raise Exception("Model Path not found")
+
 # -----------------------------------------------------------------------------
 # Model Loader
 # -----------------------------------------------------------------------------
@@ -27,11 +54,11 @@ class ModelHandler:
         self.load_models()
 
     def load_models(self):
-        repo_id = "diffusers/FLUX.2-dev-bnb-4bit"
+        model_path = find_model_path(REPO_ID)
         torch_dtype = torch.bfloat16
 
         transformer = Flux2Transformer2DModel.from_pretrained(
-            repo_id,
+            model_path,
             subfolder="transformer",
             torch_dtype=torch_dtype,
             device_map="cpu",
@@ -39,7 +66,7 @@ class ModelHandler:
         )
 
         text_encoder = Mistral3ForConditionalGeneration.from_pretrained(
-            repo_id,
+            model_path,
             subfolder="text_encoder",
             dtype=torch_dtype,
             device_map="cpu",
@@ -48,7 +75,7 @@ class ModelHandler:
         )
 
         self.pipe = Flux2Pipeline.from_pretrained(
-            repo_id,
+            model_path,
             transformer=transformer,
             text_encoder=text_encoder,
             torch_dtype=torch_dtype,
