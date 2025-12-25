@@ -1,4 +1,9 @@
 INPUT_SCHEMA = {
+    "check_cuda": {
+        "type": bool,
+        "required": False,
+        "default": False,
+    },
     "prompt": {
         "type": str,
         "required": False,

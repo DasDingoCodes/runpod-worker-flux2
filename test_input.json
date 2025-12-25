@@ -1,5 +1,6 @@
 {
   "input": {
+    "check_cuda": false,
     "prompt": "A cinematic epic battle scene on a tropical island beach at sunset, dramatic lighting, shallow depth of field, ultra detailed, 35mm photography",
     "image_inputs": [],
     "height": 1024,

@@ -129,6 +129,23 @@ def save_and_upload(images, job_id):
     rp_cleanup.clean([f"/{job_id}"])
     return urls
 
+def check_cuda_status():
+    return {
+        "cuda_available": torch.cuda.is_available(),
+        "cuda_device_count": torch.cuda.device_count(),
+        "cuda_current_device": (
+            torch.cuda.current_device()
+            if torch.cuda.is_available()
+            else None
+        ),
+        "cuda_device_name": (
+            torch.cuda.get_device_name(0)
+            if torch.cuda.is_available()
+            else None
+        ),
+    }
+
+
 # -----------------------------------------------------------------------------
 # RunPod Handler
 # -----------------------------------------------------------------------------
@@ -173,6 +190,16 @@ def generate_image(job):
         print(json.dumps(job_input, indent=2, default=str), flush=True)
     except Exception:
         pprint.pprint(job_input, depth=4, compact=False)
+    
+    # -------------------------------------------------------------------------
+    # CUDA CHECK MODE
+    # -------------------------------------------------------------------------
+    if job_input.get("check_cuda", False):
+        print("[generate_image] CUDA check requested", flush=True)
+        return {
+            "mode": "cuda_check",
+            **check_cuda_status()
+        }
 
     # -------------------------------------------------------------------------
     # Seed handling
