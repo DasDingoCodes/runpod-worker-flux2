@@ -1,12 +1,12 @@
-diffusers==0.36.0
-transformers==4.52.4
-accelerate==1.7.0
-safetensors==0.5.3
-xformers==0.0.30
-runpod==1.7.9
-torch==2.7.0
+diffusers==0.36.0 # Flux 2 was introduced with this version
+transformers
+accelerate
+safetensors
+xformers
+runpod
+torch
 torchvision
-numpy>=1.24.0
+numpy
 scipy
 triton
 huggingface-hub
