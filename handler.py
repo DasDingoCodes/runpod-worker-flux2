@@ -234,7 +234,7 @@ def generate_image(job):
     # -------------------------------------------------------------------------
     result = MODELS.pipe(
         prompt=job_input.get("prompt"),
-        image=images,
+        image=images if images else None, # empty list throws exception
         generator=generator,
         num_inference_steps=job_input["num_inference_steps"],
         guidance_scale=job_input["guidance_scale"],
