@@ -42,6 +42,16 @@ def find_model_path(model_name) -> str:
         if snapshots:
             # Return the path to the first (usually only) snapshot
             return os.path.join(snapshots_dir, snapshots[0])
+    else:
+        print(f"[find_model_path] {snapshots_dir=} doesn't exist")
+
+        if os.path.exists(CACHE_DIR):
+            print(f"[find_model_path] {CACHE_DIR=} contains:")
+            for subdir in os.listdir(CACHE_DIR):
+                print(f"[find_model_path]\t{subdir=}")
+        else:
+            print(f"[find_model_path] {CACHE_DIR=} doesn't exist either")
+
     
     raise Exception("Model Path not found")
 
