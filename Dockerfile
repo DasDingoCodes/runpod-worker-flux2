@@ -1,5 +1,5 @@
-# base image with cuda 12.1
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+# base image with cuda 12.8
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04
 
 # install python 3.11 and pip
 ENV DEBIAN_FRONTEND=noninteractive
