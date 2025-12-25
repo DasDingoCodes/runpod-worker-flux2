@@ -32,7 +32,7 @@ def find_model_path(model_name: str) -> str:
     Returns:
         The full path to the cached model, or None if not found
     """
-    # Convert model name format: "Org/Model" -> "models--Org--Model"
+    # Convert model name format: "Org/Model" -> "models--org--model"
     cache_name = model_name.replace("/", "--").lower()
     snapshots_dir = os.path.join(CACHE_DIR, f"models--{cache_name}", "snapshots")
     
@@ -215,9 +215,15 @@ def generate_image(job):
     # Seed handling
     # -------------------------------------------------------------------------
     if job_input["seed"] is None:
-        job_input["seed"] = int.from_bytes(os.urandom(2), "big")
+        job_input["seed"] = [
+            int.from_bytes(os.urandom(2), "big")
+            for _ in range(job_input["num_images"])
+        ]
 
-    generator = torch.Generator(device="cuda").manual_seed(job_input["seed"])
+    generator = [
+        torch.Generator(device="cuda").manual_seed(output_seed)
+        for output_seed in job_input["seed"]
+    ]
 
     # -------------------------------------------------------------------------
     # Load input images
@@ -243,11 +249,10 @@ def generate_image(job):
         num_images_per_prompt=job_input["num_images"],
     )
 
-    image_urls = save_and_upload(result.images, job["id"])
+    images = save_and_upload(result.images, job["id"])
 
     return {
-        "images": image_urls,
-        "image_url": image_urls[0],
+        "images": images,
         "seed": job_input["seed"],
     }
 

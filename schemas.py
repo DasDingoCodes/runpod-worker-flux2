@@ -38,7 +38,7 @@ INPUT_SCHEMA = {
         "default": 1,
     },
     "seed": {
-        "type": int,
+        "type": list,
         "required": False,
         "default": None,
     },
