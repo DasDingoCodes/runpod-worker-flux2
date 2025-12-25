@@ -21,7 +21,7 @@ torch.cuda.empty_cache()
 REPO_ID = "diffusers/FLUX.2-dev-bnb-4bit"
 CACHE_DIR = "/runpod-volume/huggingface-cache/hub"
 
-def find_model_path(model_name) -> str:
+def find_model_path(model_name: str) -> str:
     """
     Find the path to a cached model.
     
@@ -33,7 +33,7 @@ def find_model_path(model_name) -> str:
         The full path to the cached model, or None if not found
     """
     # Convert model name format: "Org/Model" -> "models--Org--Model"
-    cache_name = model_name.replace("/", "--")
+    cache_name = model_name.replace("/", "--").lower()
     snapshots_dir = os.path.join(CACHE_DIR, f"models--{cache_name}", "snapshots")
     
     # Check if the model exists in cache
